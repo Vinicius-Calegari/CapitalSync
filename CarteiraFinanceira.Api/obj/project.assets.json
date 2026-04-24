@@ -8,20 +8,20 @@
     "net10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Fillipe\\.nuget\\packages\\": {}
+    "C:\\Users\\filli\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Fillipe\\Documents\\Codex\\2026-04-24\\voc-um-desenvolvedor-s-nior-especialista\\CarteiraFinanceira.Api\\CarteiraFinanceira.Api.csproj",
+      "projectUniqueName": "C:\\Users\\filli\\OneDrive\\Desktop\\CapitalSync\\CapitalSync\\CarteiraFinanceira.Api\\CarteiraFinanceira.Api.csproj",
       "projectName": "CarteiraFinanceira.Api",
-      "projectPath": "C:\\Users\\Fillipe\\Documents\\Codex\\2026-04-24\\voc-um-desenvolvedor-s-nior-especialista\\CarteiraFinanceira.Api\\CarteiraFinanceira.Api.csproj",
-      "packagesPath": "C:\\Users\\Fillipe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Fillipe\\Documents\\Codex\\2026-04-24\\voc-um-desenvolvedor-s-nior-especialista\\CarteiraFinanceira.Api\\obj\\",
+      "projectPath": "C:\\Users\\filli\\OneDrive\\Desktop\\CapitalSync\\CapitalSync\\CarteiraFinanceira.Api\\CarteiraFinanceira.Api.csproj",
+      "packagesPath": "C:\\Users\\filli\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\filli\\OneDrive\\Desktop\\CapitalSync\\CapitalSync\\CarteiraFinanceira.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Fillipe\\Documents\\Codex\\2026-04-24\\voc-um-desenvolvedor-s-nior-especialista\\CarteiraFinanceira.Api\\NuGet.Config",
-        "C:\\Users\\Fillipe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\filli\\OneDrive\\Desktop\\CapitalSync\\CapitalSync\\CarteiraFinanceira.Api\\NuGet.Config",
+        "C:\\Users\\filli\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
