@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "CarteiraFinanceira.Api/1.0.0": {
+        "runtime": {
+          "CarteiraFinanceira.Api.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CarteiraFinanceira.Api/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

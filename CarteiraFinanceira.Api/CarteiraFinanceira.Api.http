@@ -1,0 +1,31 @@
+@CarteiraFinanceira.Api_HostAddress = http://localhost:5110
+
+GET {{CarteiraFinanceira.Api_HostAddress}}/
+Accept: text/html
+
+###
+
+GET {{CarteiraFinanceira.Api_HostAddress}}/api/inicio/status
+Accept: application/json
+
+###
+
+GET {{CarteiraFinanceira.Api_HostAddress}}/api/ativos/sugestoes
+Accept: application/json
+
+###
+
+GET {{CarteiraFinanceira.Api_HostAddress}}/api/ativos/consultar?ativo=AAPL&periodo=30
+Accept: application/json
+
+###
+
+GET {{CarteiraFinanceira.Api_HostAddress}}/api/ativos/consultar?ativo=BTC&periodo=90
+Accept: application/json
+
+###
+
+GET {{CarteiraFinanceira.Api_HostAddress}}/api/ativos/multiplas?ativos=AAPL,BTC,PETR4
+Accept: application/json
+
+###

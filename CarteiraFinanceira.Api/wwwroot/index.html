@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carteira Financeira Dashboard</title>
+    <meta
+        name="description"
+        content="Dashboard financeiro full stack em ASP.NET Core com consulta de ações e criptomoedas, múltiplas buscas e gráfico de preços." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+    <div class="page-shell">
+        <div class="ambient ambient-left"></div>
+        <div class="ambient ambient-right"></div>
+
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-mark">CF</div>
+                <div>
+                    <p class="eyebrow">Portf&oacute;lio .NET Full Stack</p>
+                    <h1>Carteira Financeira Dashboard</h1>
+                </div>
+            </div>
+
+            <div class="topbar-pills">
+                <span class="status-pill">ASP.NET Core Web API</span>
+                <span class="status-pill status-pill-live">Painel responsivo em tempo real</span>
+            </div>
+        </header>
+
+        <section class="hero-grid">
+            <article class="card hero-card">
+                <p class="section-label">Vis&atilde;o geral</p>
+                <h2>Um painel de mercado com cara de produto real.</h2>
+                <p class="hero-copy">
+                    Consulte a&ccedil;&otilde;es e criptomoedas, acompanhe varia&ccedil;&atilde;o percentual,
+                    compare m&uacute;ltiplos ativos e visualize o hist&oacute;rico de pre&ccedil;os sem sair da mesma tela.
+                </p>
+
+                <div class="hero-highlights">
+                    <div class="hero-highlight">
+                        <span>Back-end</span>
+                        <strong>ASP.NET Core + HttpClient</strong>
+                    </div>
+                    <div class="hero-highlight">
+                        <span>Front-end</span>
+                        <strong>HTML, CSS e JavaScript puro</strong>
+                    </div>
+                    <div class="hero-highlight">
+                        <span>Fonte de dados</span>
+                        <strong id="source-provider">Alpha Vantage + brapi</strong>
+                    </div>
+                </div>
+            </article>
+
+            <aside class="card search-card">
+                <div class="card-header">
+                    <div>
+                        <p class="section-label">Buscar ativos</p>
+                        <h3>Digite um ativo ou uma lista separada por v&iacute;rgula</h3>
+                    </div>
+                </div>
+
+                <form id="search-form" class="search-form">
+                    <label class="search-label" for="asset-input">Exemplo: <strong>AAPL</strong>, <strong>PETR4</strong>, <strong>BTC</strong></label>
+
+                    <div class="search-row">
+                        <input
+                            id="asset-input"
+                            name="ativo"
+                            type="text"
+                            inputmode="text"
+                            autocomplete="off"
+                            spellcheck="false"
+                            placeholder="Digite o c&oacute;digo do ativo" />
+                        <button id="search-button" type="submit">Buscar agora</button>
+                    </div>
+                </form>
+
+                <div class="helper-grid">
+                    <div class="helper-card">
+                        <span>Consulta &uacute;nica</span>
+                        <strong>Resumo + gr&aacute;fico</strong>
+                    </div>
+                    <div class="helper-card">
+                        <span>Consulta m&uacute;ltipla</span>
+                        <strong>Watchlist imediata</strong>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="chips-title">Atalhos r&aacute;pidos</p>
+                    <div id="quick-chips" class="quick-chips"></div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="overview-grid">
+            <article class="metric-card">
+                <span class="metric-label">Ativo em foco</span>
+                <strong id="overview-symbol">--</strong>
+                <p id="overview-name">Aguardando consulta</p>
+            </article>
+
+            <article class="metric-card">
+                <span class="metric-label">Monitorados agora</span>
+                <strong id="overview-count">0</strong>
+                <p>Ativos em acompanhamento</p>
+            </article>
+
+            <article class="metric-card">
+                <span class="metric-label">Per&iacute;odo do gr&aacute;fico</span>
+                <strong id="overview-period">30 dias</strong>
+                <p>Hist&oacute;rico exibido no painel</p>
+            </article>
+
+            <article class="metric-card">
+                <span class="metric-label">&Uacute;ltima atualiza&ccedil;&atilde;o</span>
+                <strong id="overview-updated">--</strong>
+                <p>Hor&aacute;rio da consulta mais recente</p>
+            </article>
+        </section>
+
+        <main class="dashboard-grid">
+            <section class="main-column">
+                <article class="card asset-card">
+                    <div class="asset-header">
+                        <div>
+                            <p class="section-label">Resumo do ativo</p>
+                            <h2 id="asset-name">Aguardando consulta</h2>
+                            <div class="asset-meta">
+                                <span id="asset-code">--</span>
+                                <span>&bull;</span>
+                                <span id="asset-type">--</span>
+                                <span>&bull;</span>
+                                <span id="asset-market">--</span>
+                            </div>
+                        </div>
+
+                        <div class="price-block">
+                            <span class="price-caption">Pre&ccedil;o atual</span>
+                            <strong id="asset-price">--</strong>
+                            <span id="asset-variation" class="variation-badge neutral">--</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span>Moeda</span>
+                            <strong id="asset-currency">--</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Abertura</span>
+                            <strong id="asset-open">--</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>M&aacute;xima do dia</span>
+                            <strong id="asset-high">--</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>M&iacute;nima do dia</span>
+                            <strong id="asset-low">--</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Fechamento anterior</span>
+                            <strong id="asset-previous-close">--</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Volume</span>
+                            <strong id="asset-volume">--</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Status do mercado</span>
+                            <strong id="asset-status">--</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Fonte</span>
+                            <strong id="asset-source">--</strong>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card chart-card">
+                    <div class="card-header">
+                        <div>
+                            <p class="section-label">Hist&oacute;rico de pre&ccedil;os</p>
+                            <h3>Evolu&ccedil;&atilde;o do ativo no per&iacute;odo selecionado</h3>
+                        </div>
+
+                        <div class="period-switch" id="period-switch">
+                            <button class="period-button" data-period="7" type="button">7D</button>
+                            <button class="period-button is-active" data-period="30" type="button">30D</button>
+                            <button class="period-button" data-period="90" type="button">90D</button>
+                            <button class="period-button" data-period="180" type="button">180D</button>
+                        </div>
+                    </div>
+
+                    <div class="chart-summary">
+                        <div class="chart-metric">
+                            <span>M&aacute;xima do per&iacute;odo</span>
+                            <strong id="chart-max">--</strong>
+                        </div>
+                        <div class="chart-metric">
+                            <span>M&iacute;nima do per&iacute;odo</span>
+                            <strong id="chart-min">--</strong>
+                        </div>
+                        <div class="chart-metric">
+                            <span>Varia&ccedil;&atilde;o no per&iacute;odo</span>
+                            <strong id="chart-period-variation">--</strong>
+                        </div>
+                    </div>
+
+                    <div id="loading-state" class="loading-state hidden">
+                        <div class="spinner"></div>
+                        <p id="loading-text">Carregando dados de mercado...</p>
+                    </div>
+
+                    <div id="error-state" class="error-state hidden" role="alert"></div>
+
+                    <div class="chart-surface" id="chart-surface">
+                        <svg id="price-chart" viewBox="0 0 860 360" aria-label="Gr&aacute;fico de pre&ccedil;os"></svg>
+                        <div class="chart-axis">
+                            <span id="chart-start-date">--</span>
+                            <span id="chart-mid-date">--</span>
+                            <span id="chart-end-date">--</span>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <aside class="sidebar-column">
+                <article class="card sidebar-card">
+                    <div class="card-header">
+                        <div>
+                            <p class="section-label">Consultas recentes</p>
+                            <h3>Ativos acompanhados na sess&atilde;o</h3>
+                        </div>
+                    </div>
+
+                    <div id="watchlist" class="watchlist"></div>
+                    <div id="batch-errors" class="batch-errors"></div>
+                </article>
+
+                <article class="card sidebar-card">
+                    <div class="card-header">
+                        <div>
+                            <p class="section-label">Fluxo do usu&aacute;rio</p>
+                            <h3>Como explorar o dashboard</h3>
+                        </div>
+                    </div>
+
+                    <div class="guide-list">
+                        <div class="guide-item">
+                            <span>1</span>
+                            <p>Busque um ativo individual para abrir o resumo completo com gr&aacute;fico.</p>
+                        </div>
+                        <div class="guide-item">
+                            <span>2</span>
+                            <p>Pesquise uma lista como <strong>AAPL, BTC, PETR4</strong> para montar uma watchlist.</p>
+                        </div>
+                        <div class="guide-item">
+                            <span>3</span>
+                            <p>Troque o per&iacute;odo do gr&aacute;fico para comparar movimentos recentes.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card sidebar-card">
+                    <div class="card-header">
+                        <div>
+                            <p class="section-label">Contexto t&eacute;cnico</p>
+                            <h3>API e arquitetura</h3>
+                        </div>
+                    </div>
+
+                    <div class="stack-list">
+                        <span>Controllers + Services + Models</span>
+                        <span>HttpClient e desserializa&ccedil;&atilde;o JSON</span>
+                        <span>Front-end servido pelo ASP.NET Core</span>
+                    </div>
+
+                    <a class="inline-link" href="/api/inicio/status" target="_blank" rel="noreferrer">
+                        Ver status da aplica&ccedil;&atilde;o
+                    </a>
+                </article>
+            </aside>
+        </main>
+
+        <footer class="footer">
+            <p>Projeto full stack para portf&oacute;lio com integra&ccedil;&atilde;o real entre back-end, front-end e dados financeiros.</p>
+        </footer>
+    </div>
+
+    <script src="/js/app.js" defer></script>
+</body>
+</html>
