@@ -1,142 +1,81 @@
-# Carteira Financeira Dashboard
+# CapitalSync
 
-Projeto full stack em C# com ASP.NET Core Web API no back-end e dashboard responsivo em HTML, CSS e JavaScript no front-end. A aplicacao consulta dados financeiros reais, exibe resumo do ativo, historico de precos e suporta consultas multiplas em uma interface com visual de produto real.
+Dashboard financeiro full stack para consulta de ações e criptomoedas, com histórico de preços, comparação de ativos e integração com provedores externos.
 
-## Tecnologias
+![.NET](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-Web_API-512BD4)
+![CI](https://img.shields.io/github/actions/workflow/status/Vinicius-Calegari/CapitalSync/dotnet-ci.yml?label=build)
 
-- C#
-- .NET 10
+## Arquitetura
+
+O backend ASP.NET Core concentra regras de consulta, cache e integração com provedores. O frontend é servido pela própria aplicação e consome a API REST. `HttpClient` é injetado via DI e `IMemoryCache` reduz chamadas repetidas.
+
+## Stack
+
+- C# / .NET 10
 - ASP.NET Core Web API
-- HttpClient
-- System.Text.Json
-- IMemoryCache
-- HTML, CSS e JavaScript puro
+- HttpClient, System.Text.Json e IMemoryCache
+- HTML, CSS e JavaScript
+- Alpha Vantage e brapi
 
-## APIs externas escolhidas
+## Segurança
 
-O projeto usa duas fontes para deixar a busca mais confiavel:
+Credenciais não devem ser versionadas. Configure a chave da Alpha Vantage localmente com User Secrets ou variável de ambiente:
 
-- [Alpha Vantage](https://www.alphavantage.co/documentation/) para acoes internacionais e criptomoedas
-- [brapi](https://brapi.dev/docs/acoes) para ativos brasileiros de demonstracao como `PETR4`, `VALE3`, `MGLU3` e `ITUB4`
-
-### Chave da API
-
-O arquivo `CarteiraFinanceira.Api/appsettings.json` ja esta configurado com uma chave da Alpha Vantage.
-
-Se quiser trocar por uma chave propria:
-
-1. Acesse [https://www.alphavantage.co/support/#api-key](https://www.alphavantage.co/support/#api-key)
-2. Gere uma chave gratuita
-3. Atualize o arquivo `CarteiraFinanceira.Api/appsettings.json`:
-
-```json
-"AlphaVantage": {
-  "ApiKey": "SUA_CHAVE_AQUI"
-}
+```bash
+cd CarteiraFinanceira.Api
+dotnet user-secrets init
+dotnet user-secrets set "AlphaVantage:ApiKey" "SUA_CHAVE"
 ```
 
-## O que o projeto entrega
+Em servidores/containers, use `AlphaVantage__ApiKey`. O arquivo `appsettings.Local.json` é ignorado pelo Git e `appsettings.Local.example.json` serve apenas como referência.
 
-- Dashboard profissional com cards, secoes, loading e mensagens de erro
-- Campo de busca para um ativo ou varios separados por virgula
-- Consulta de acoes e criptomoedas
-- Resumo completo com preco atual, variacao, abertura, maxima, minima, fechamento anterior e volume
-- Grafico de historico de precos no proprio painel
-- Watchlist de consultas recentes
-- API organizada em `Models`, `Services` e `Controllers`
+> Se uma chave já tiver sido publicada no histórico do Git, ela deve ser revogada no provedor. Remover do commit atual não invalida uma credencial já exposta.
 
-## Estrutura do projeto
+## Executar
 
-```text
-voc-um-desenvolvedor-s-nior-especialista/
-|-- README.md
-|-- CarteiraFinanceira.Api/
-|   |-- Controllers/
-|   |   |-- AtivosController.cs
-|   |   |-- InicioController.cs
-|   |-- Models/
-|   |   |-- Api/
-|   |   |   |-- AlphaVantageQuoteResponse.cs
-|   |   |   |-- AlphaVantageDailyResponse.cs
-|   |   |   |-- AlphaVantageDigitalCurrencyResponse.cs
-|   |   |   |-- BrapiQuoteResponse.cs
-|   |   |-- ApiErrorResponse.cs
-|   |   |-- AtivoFinanceiroResponse.cs
-|   |   |-- ConsultaAtivoDetalhadaResponse.cs
-|   |   |-- ConsultaLoteResponse.cs
-|   |   |-- SugestaoAtivoResponse.cs
-|   |-- Services/
-|   |   |-- IConsultaAtivoService.cs
-|   |   |-- MercadoFinanceiroService.cs
-|   |-- wwwroot/
-|   |   |-- css/
-|   |   |   |-- styles.css
-|   |   |-- js/
-|   |   |   |-- app.js
-|   |   |-- index.html
-|   |-- Program.cs
-|   |-- appsettings.json
-|   |-- appsettings.Development.json
-|   |-- CarteiraFinanceira.Api.http
-|   |-- CarteiraFinanceira.Api.csproj
-```
-
-## Como rodar
-
-1. Entre na pasta do projeto:
-
-```powershell
-cd .\CarteiraFinanceira.Api
-```
-
-2. Restaure as dependencias:
-
-```powershell
-dotnet restore --configfile .\NuGet.Config
-```
-
-3. Execute a aplicacao:
-
-```powershell
+```bash
+cd CarteiraFinanceira.Api
+dotnet restore
 dotnet run
 ```
 
-4. Abra no navegador:
+Por padrão, consulte a URL exibida pelo `dotnet run`.
+
+## Endpoints
 
 ```text
-http://localhost:5110/
+GET /api/inicio/status
+GET /api/ativos/sugestoes
+GET /api/ativos/consultar?ativo=AAPL&periodo=30
+GET /api/ativos/consultar?ativo=BTC&periodo=90
+GET /api/ativos/multiplas?ativos=AAPL,BTC,PETR4
 ```
 
-## Endpoints da API
+## Qualidade
 
-- `GET /api/inicio/status`
-- `GET /api/ativos/sugestoes`
-- `GET /api/ativos/consultar?ativo=AAPL&periodo=30`
-- `GET /api/ativos/consultar?ativo=BTC&periodo=90`
-- `GET /api/ativos/multiplas?ativos=AAPL,BTC,PETR4`
+O repositório possui GitHub Actions para restaurar dependências e compilar a aplicação em cada push/PR, além de Dependabot para acompanhar NuGet e Actions.
 
-## Como funciona
+## Estrutura
 
-### Back-end
+```text
+CarteiraFinanceira.Api/
+├── Controllers/
+├── Models/
+├── Services/
+├── wwwroot/
+├── Program.cs
+└── CarteiraFinanceira.Api.csproj
+```
 
-- O controller recebe o codigo do ativo informado pelo usuario.
-- O service decide qual provedor usar com base no tipo do ativo.
-- Acoes brasileiras gratuitas usam brapi, enquanto acoes internacionais e cripto usam Alpha Vantage.
-- Depois consulta o endpoint de historico para montar os pontos do grafico.
-- A API devolve um objeto organizado para o dashboard renderizar sem logica complexa no front-end.
+## Próximos passos técnicos
 
-### Front-end
+- testes unitários e de integração
+- rate limiting na API pública
+- tratamento global de exceções com Problem Details
+- health checks
+- containerização e deploy reproduzível
 
-- A tela inicial abre pronta para busca, sem consumir chamadas automaticas da API.
-- O formulario aceita um ativo unico ou varios ativos separados por virgula.
-- Consultas multiplas montam uma watchlist no painel lateral.
-- O grafico usa SVG dinamico para desenhar a curva de precos sem depender de bibliotecas externas.
-- O estado de loading, os erros e o periodo do grafico sao atualizados em tempo real.
+---
 
-## Diferenciais para portfolio
-
-- Visual de dashboard com acabamento profissional
-- Integracao real entre front-end e back-end
-- Estrutura pronta para crescimento
-- Codigo limpo com separacao de responsabilidades
-- Fluxo completo de produto: busca, analise, comparacao e historico
+Desenvolvido por [Vinícius Calegari](https://github.com/Vinicius-Calegari).
