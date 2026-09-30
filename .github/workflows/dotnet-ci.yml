@@ -1,0 +1,21 @@
+name: .NET CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Restore
+        run: dotnet restore CarteiraFinanceira.Api/CarteiraFinanceira.Api.csproj
+      - name: Build
+        run: dotnet build CarteiraFinanceira.Api/CarteiraFinanceira.Api.csproj --configuration Release --no-restore
