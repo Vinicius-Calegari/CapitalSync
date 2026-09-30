@@ -10,6 +10,8 @@ Dashboard financeiro full stack para consulta de ações e criptomoedas, com his
 
 O backend ASP.NET Core concentra regras de consulta, cache e integração com provedores. O frontend é servido pela própria aplicação e consome a API REST. `HttpClient` é injetado via DI e `IMemoryCache` reduz chamadas repetidas.
 
+A resolução de ativos diferencia dinamicamente tickers da B3, ações internacionais e criptomoedas, utilizando fallback entre provedores quando aplicável.
+
 ## Stack
 
 - C# / .NET 10
@@ -48,6 +50,7 @@ Por padrão, consulte a URL exibida pelo `dotnet run`.
 GET /api/inicio/status
 GET /api/ativos/sugestoes
 GET /api/ativos/consultar?ativo=AAPL&periodo=30
+GET /api/ativos/consultar?ativo=WEGE3&periodo=30
 GET /api/ativos/consultar?ativo=BTC&periodo=90
 GET /api/ativos/multiplas?ativos=AAPL,BTC,PETR4
 ```
