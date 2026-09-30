@@ -10,7 +10,7 @@ public class ConsultaAtivoDetalhadaResponse
 
 public class PontoHistoricoResponse
 {
-    public DateTime Data { get; set; }
+    public DateTimeOffset Data { get; set; }
     public decimal Abertura { get; set; }
     public decimal Fechamento { get; set; }
     public decimal Maxima { get; set; }
