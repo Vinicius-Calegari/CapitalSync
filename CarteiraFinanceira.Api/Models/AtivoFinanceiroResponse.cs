@@ -17,5 +17,5 @@ public class AtivoFinanceiroResponse
     public long Volume { get; set; }
     public string StatusMercado { get; set; } = string.Empty;
     public string OrigemConsulta { get; set; } = string.Empty;
-    public DateTime UltimaAtualizacaoUtc { get; set; }
+    public DateTimeOffset UltimaAtualizacaoUtc { get; set; }
 }
