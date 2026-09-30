@@ -1,0 +1,24 @@
+# .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# Local SDK/tooling
+.dotnet/
+.templateengine/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
