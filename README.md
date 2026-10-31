@@ -4,9 +4,11 @@
 
 [![.NET](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 ![CI](https://img.shields.io/github/actions/workflow/status/Vinicius-Calegari/CapitalSync/dotnet-ci.yml?label=build)
-[![Produção](https://img.shields.io/badge/produção-Railway-7B2BF9)](https://capitalsync-production.up.railway.app)
+[![Produção](https://img.shields.io/badge/produção-Render-46E3B7)](https://capitalsync-7rpj.onrender.com)
 
-**Demo:** https://capitalsync-production.up.railway.app
+**Demo:** https://capitalsync-7rpj.onrender.com
+
+**Hospedagem atual:** serviço web Docker no Render, a partir da branch [`deploy/render-free-2026`](https://github.com/Vinicius-Calegari/CapitalSync/tree/deploy/render-free-2026). A API .NET 10 e o frontend compartilham o mesmo domínio; chaves externas ficam nas variáveis de ambiente do Render.
 
 ## O problema
 
